@@ -3,24 +3,45 @@
 	session_start();
 	include '../dbconnect.php';
 		
-	if(isset($_POST['adduser']))
+	if(isset($_POST['addsales']))
 	{
-		$username = $_POST['uname'];
-		$password = password_hash($_POST['upass'], PASSWORD_DEFAULT); 
-			  
-		$tambahuser = mysqli_query($conn,"insert into login values('','$username','$password')");
-		if ($tambahuser){
-		echo " <div class='alert alert-success'>
-			Berhasil menambahkan staff baru.
-		  </div>
-		<meta http-equiv='refresh' content='1; url= user.php'/>  ";
-		} else { echo "<div class='alert alert-warning'>
-			Gagal menambahkan staff baru.
-		  </div>
-		 <meta http-equiv='refresh' content='1; url= user.php'/> ";
+		$namasales = $_POST['namasales'];
+        $merk = $_POST['merk'];
+		
+		$tambahsal = mysqli_query($conn,"insert into sales (namasales, merk) values ('$namasales', '$merk')");
+		if ($tambahsal){
+		echo "
+		<meta http-equiv='refresh' content='1; url= sales.php'/>  ";
+		} else { echo "
+		 <meta http-equiv='refresh' content='1; url= sales.php'/> ";
 		}
 		
 	};
+
+
+    // if(isset($_POST["addsales"])) {
+	// 	$namasales=$_POST['namasales'];
+	// 	$merk=$_POST['merk'];
+		
+
+    //     // $ext = pathinfo($nama_file, PATHINFO_EXTENSION);
+    //     // $random = crypt($nama_file, time());
+
+    //     // $query = "insert into sales (namasales, merk)
+	// 	// 	  values('$namasales','$merk')";
+	// 	// 	  $sql = mysqli_query($conn, $query); // Eksekusi/ Jalankan query dari variabel $query
+			  
+	// 		//   if($sql){ 
+				
+	// 		// 	echo "<br><meta http-equiv='refresh' content='5; URL=produk.php'> You will be redirected to the form in 5 seconds";
+					
+	// 		//   }else{
+	// 		// 	// Jika Gagal, Lakukan :
+	// 		// 	echo "Sorry, there's a problem while submitting.";
+	// 		// 	echo "<br><meta http-equiv='refresh' content='5; URL=produk.php'> You will be redirected to the form in 5 seconds";
+	// 		//   }
+    //         }
+
 	?>
 
 <!doctype html>
@@ -32,7 +53,7 @@
       type="image/png" 
       href="../favicon.png">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Kelola Staff - Tokopekita</title>
+    <title>Kelola Sales - Toko Mebel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -83,19 +104,20 @@
 							<li>
                                 <a href="manageorder.php"><i class="ti-dashboard"></i><span>Kelola Pesanan</span></a>
                             </li>
-							<li>
+							<li class="active">
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout"></i><span>Kelola Toko
                                     </span></a>
                                 <ul class="collapse">
                                     <li><a href="kategori.php">Kategori</a></li>
                                     <li><a href="produk.php">Produk</a></li>
 									<li><a href="pembayaran.php">Metode Pembayaran</a></li>
-                                    <li><a href="sales.php">Tagihan Sales</a></li>
-                                    <li><a href="stokbarang.php">Stok Barang</a></li>
+                                    <li><a href="sales.php">Daftar Sales</a></li>
+                                    <li class="active"><a href="stokbarang.php">Stok Barang</a></li>
+
                                 </ul>
                             </li>
 							<li><a href="customer.php"><span>Kelola Pelanggan</span></a></li>
-							<li class="active"><a href="user.php"><span>Kelola Staff</span></a></li>
+							<li><a href="user.php"><span>Kelola Staff</span></a></li>
                             <li>
                                 <a href="../logout.php"><span>Logout</span></a>
                                 
@@ -155,37 +177,49 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-center">
-									<h2>Daftar Staff</h2>
-									</div>
+									<h2>Daftar Sales</h2>
+									<button style="margin-bottom:20px" data-toggle="modal" data-target="#myModal" class="btn btn-info col-md-2">Tambah Sales</button>
+                                </div>
                                     <div class="data-tables datatable-dark">
 										 <table id="dataTable3" class="display" style="width:100%"><thead class="thead-dark">
-											<tr>
+                                         <tr>
 												<th>No.</th>
-												<th>Nama</th>
-												<th>Email</th>
-												<th>Telepon</th>
-												<th>Alamat</th>
+												<th>Nama sales</th>
+												<th>Merk</th>
+												<th>Tanggal</th>
+                                                <th>Jumlah Produk</th>
+                                                <th></th>
+                                                
+                                                <!-- <a href="index.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-warning">Edit</button></a> -->
+
 											</tr></thead><tbody>
 											<?php 
-											$brgs=mysqli_query($conn,"SELECT * from login where role='Admin' order by userid ASC");
+											// $brgs=mysqli_query($conn,"SELECT * from sales s, merk m where s.idkategori=m.idkategori order by idsales ASC");
+                                            $sal=mysqli_query($conn,"SELECT *  from sales order by idsales ASC");
 											$no=1;
-											while($p=mysqli_fetch_array($brgs)){
+											while($p=mysqli_fetch_array($sal)){
+                                                $id = $p['idsales'];
 
 												?>
 												
 												<tr>
 													<td><?php echo $no++ ?></td>
-													<td><?php echo $p['namalengkap'] ?></td>
-													<td><?php echo $p['email'] ?></td>
-													<td><?php echo $p['notelp'] ?></td>
-													<td><?php echo $p['alamat'] ?></td>
-													
+													<td><?php echo $p['namasales'] ?></td>
+													<td><?php echo $p['merk'] ?></td>
+													<td><?php echo $p['date'] ?></td>
+                                                    <td><?php echo $p[''] ?></td>
+
+                                                    <?php
+                                                    // $i=mysqli_query($conn, "SELECT * from sales by idsales") ?>
+													<td scope="row">
+                                                         <a href="viewtagihan.php?id=<?php echo $p['idsales'] ?>" button type="button" class="btn btn-warning">masuk</button></a>
+                                                    
+                                                         </td>
 												</tr>		
-												
 												
 												<?php 
 											}
-													
+											
 											?>
 										</tbody>
 										</table>
@@ -211,44 +245,34 @@
     </div>
     <!-- page container area end -->
 	
-	<!-- modal input 
+	<!-- modal input -->
 			<div id="myModal" class="modal fade">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h4 class="modal-title">Tambah User Baru</h4>
+							<h4 class="modal-title">Tambah Kategori</h4>
 						</div>
 						<div class="modal-body">
 							<form method="post">
 								<div class="form-group">
-									<label>Username</label>
-									<input name="uname" type="text" class="form-control" placeholder="Username" required autofocus>
+									<label>Nama Sales</label>
+									<input name="namasales" type="text" class="form-control" required autofocus>
 								</div>
-								<div class="form-group">
-									<label>Password</label>
-									<input name="upass" type="password" class="form-control" placeholder="Password">
+                                <div class="form-group">
+									<label>Nama Merk</label>
+									<input name="merk" type="text" class="form-control" required autofocus>
 								</div>
 
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-								<input name="adduser" type="submit" class="btn btn-primary" value="Simpan">
+								<input name="addsales" type="submit" class="btn btn-primary" value="Tambah">
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
-	-->
-	<script>
-	$(document).ready(function() {
-    $('#dataTable3').DataTable( {
-        dom: 'Bfrtip',
-        buttons: [
-            'print'
-        ]
-    } );
-	} );
-	</script>
+	
 	
 	<!-- jquery latest version -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>

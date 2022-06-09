@@ -275,11 +275,11 @@ include 'dbconnect.php';
 			<h3 class="w3_agile_header">Tentang Kami</h3>
 			<div class="about-agileinfo w3layouts">
 				<div class="col-md-8 about-wthree-grids grid-top">
-					<h4>TokoMebel adalah salah satu proyek toko online berbasis Web</h4>
-					<p class="top">Top Facts
+					<h4>TokoMebel Rizki Adalah Adalah Suatu Proyek Toko Online Berbasis Web Pertama Yang Dibuat Untuk Membantu Usaha Mebel di Kota Jombang </h4>
+					<p class="top">
 						
 					<br>
-					Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+					Usaha Kami Sudah Berjalan Sejak Lama dan Menjadi Usaha Terpercaya Masyarakat Dalam Memenuhi Kebutuhan Papan Mereka </p>
 				</div>
 			</div>
 		</div>
@@ -297,7 +297,7 @@ include 'dbconnect.php';
 					<h3>Hubungi Kami</h3>
 					
 					<ul class="address">
-						<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>Toko Meubel Rizki, Jombang.</li>
+						<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>Jl. Bupati Ismail Kecamatan.Ngoro, Jombang.</li>
 						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:info@email">info@email</a></li>
 						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+62 812 4913 8361</li>
 					</ul>
